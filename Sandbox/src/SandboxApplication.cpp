@@ -4,9 +4,6 @@ class Sandbox : public Pulp::Application {
 public:
 	Sandbox() {}
 	~Sandbox() {}
-	void Run() {
-		printf("Hello");
-	}
 };
 
 

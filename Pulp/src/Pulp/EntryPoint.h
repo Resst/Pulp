@@ -6,6 +6,8 @@ extern Pulp::Application* Pulp::CreateApplication();
 
 int main(int argc, char** argv)
 {
+	Pulp::Log::Init();
+
 	auto app = Pulp::CreateApplication();
 	app->Run();
 	delete app;
