@@ -1,5 +1,7 @@
 #pragma once
 #include "Pulp/Core.h"
+#include "plppch.h"
+
 
 namespace Pulp {
 	enum class EventType {
@@ -37,6 +39,10 @@ namespace Pulp {
 	{
 		friend class EventDispatcher;
 	public:
+		virtual ~Event() = default;
+
+		bool Handled = false;
+
 		virtual EventType GetEventType() const = 0;
 		virtual const char* GetName() const = 0;
 		virtual int GetCategoryFlags() const = 0;
@@ -45,9 +51,6 @@ namespace Pulp {
 		inline bool IsInCategory(EventCategory category) {
 			return GetCategoryFlags() & category;
 		}
-
-	protected:
-		bool m_Handled = false;
 	};
 
 	class EventDispatcher {
@@ -60,7 +63,7 @@ namespace Pulp {
 		template<typename T>
 		bool Dispatch(EventFn<T> fun) {
 			if (m_Event.GetEventType() == T::GetStaticType()) {
-				m_Event.m_Handled = fun(*(T*)&m_Event);
+				m_Event.Handled = fun(*(T*)&m_Event);
 				return true;
 			}
 			return false;

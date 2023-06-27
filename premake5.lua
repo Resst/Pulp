@@ -9,6 +9,15 @@ workspace "Pulp"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+IncludeDir = {}
+IncludeDir["GLFW"] = "Pulp/vendor/GLFW/include"
+IncludeDir["Glad"] = "Pulp/vendor/Glad/include"
+group "Dependencies"
+	include "Pulp/vendor/GLFW"
+	include "Pulp/vendor/Glad"
+group ""
+
+
 project "Pulp"
 	location "Pulp"
 	kind "SharedLib"
@@ -28,7 +37,15 @@ project "Pulp"
 
 	includedirs{
 		"%{prj.name}/src",
-		"%{prj.name}/vendor/spdlog/include"
+		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}"
+	}
+
+	links{
+		"GLFW",
+		"Glad",
+		"opengl32.lib"
 	}
 	
 	filter "system:windows"
@@ -38,7 +55,8 @@ project "Pulp"
 
 		defines{
 			"PLP_PLATFORM_WINDOWS",
-			"PLP_BUILD_DLL"
+			"PLP_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
 		}
 		postbuildcommands {
 			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
@@ -46,15 +64,21 @@ project "Pulp"
 
 	filter "configurations:Debug"
 		defines "PLP_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 		
 	filter "configurations:Release"
 		defines "PLP_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 		
 	filter "configurations:Dist"
 		defines "PLP_DIST"
+		buildoptions "/MD"
 		optimize "On"
+
+
+
 
 project "Sandbox"
 	location "Sandbox"
@@ -91,12 +115,15 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "PLP_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 		
 	filter "configurations:Release"
 		defines "PLP_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 		
 	filter "configurations:Dist"
 		defines "PLP_DIST"
+		buildoptions "/MD"
 		optimize "On"
