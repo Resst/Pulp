@@ -1,6 +1,9 @@
 #include <Pulp.h>
 #include <stdio.h>
 
+
+
+
 class MyLayer : public Pulp::Layer {
 public:
 	MyLayer()
@@ -10,6 +13,7 @@ public:
 	void OnUpdate() override {
 		if (Pulp::Input::IsKeyPressed(PLP_KEY_G))
 			PLP_INFO("g pressed");
+		
 	}
 	void OnEvent(Pulp::Event& event) override {
 	}

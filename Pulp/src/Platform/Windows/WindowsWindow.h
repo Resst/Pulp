@@ -4,6 +4,8 @@
 
 #include <GLFW/glfw3.h>
 
+#include "Pulp/Renderer/GraphicsContext.h"
+
 struct GLFWwindow;
 
 namespace Pulp {
@@ -31,6 +33,7 @@ namespace Pulp {
 
 	private:
 		GLFWwindow* m_Window;
+		GraphicsContext* m_Context;
 
 		struct WindowData {
 			std::string Title;

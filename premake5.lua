@@ -12,6 +12,7 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}
 IncludeDir["GLFW"] = "Pulp/vendor/GLFW/include"
 IncludeDir["Glad"] = "Pulp/vendor/Glad/include"
+IncludeDir["glm"] = "Pulp/vendor/glm"
 group "Dependencies"
 	include "Pulp/vendor/GLFW"
 	include "Pulp/vendor/Glad"
@@ -32,14 +33,17 @@ project "Pulp"
 
 	files{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl"
 	}
 
 	includedirs{
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
-		"%{IncludeDir.Glad}"
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.glm}"
 	}
 
 	links{
@@ -59,7 +63,8 @@ project "Pulp"
 			"GLFW_INCLUDE_NONE"
 		}
 		postbuildcommands {
-			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
+			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\""),
+			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Tests/\"")
 		}
 
 	filter "configurations:Debug"
@@ -97,7 +102,8 @@ project "Sandbox"
 
 	includedirs{
 		"Pulp/vendor/spdlog/include",
-		"Pulp/src"
+		"Pulp/src",
+		"%{IncludeDir.glm}"
 	}
 
 	links{
@@ -127,3 +133,7 @@ project "Sandbox"
 		defines "PLP_DIST"
 		buildoptions "/MD"
 		optimize "On"
+
+
+
+

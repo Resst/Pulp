@@ -5,6 +5,7 @@
 #include "Events/MouseEvent.h"
 #include "Log.h"
 #include "Input.h"
+#include "KeyCodes.h"
 
 #include <glad/glad.h>
 
@@ -36,6 +37,12 @@ namespace Pulp {
 				layer->OnUpdate();
 
 			m_Window->OnUpdate();
+
+			//if (Input::IsKeyPressed(PLP_KEY_D))
+			//	PLP_CORE_INFO("5 pressed");
+			//
+			//keybd_event('D', 0, 0, 0);
+			
 		}
 
 	}
