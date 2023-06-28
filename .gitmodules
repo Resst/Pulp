@@ -1,3 +1,6 @@
 [submodule "Pulp/vendor/spdlog"]
 	path = Pulp/vendor/spdlog
 	url = https://github.com/gabime/spdlog.git
+[submodule "Pulp/vendor/glm"]
+	path = Pulp/vendor/glm
+	url = https://github.com/g-truc/glm.git
