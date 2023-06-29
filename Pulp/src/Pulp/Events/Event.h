@@ -24,7 +24,6 @@ namespace Pulp {
 		EventCategoryInput = 1 << 1,
 		EventCategoryKeyboard = 1 << 2,
 		EventCategoryMouse = 1 << 3,
-		EventCategoryMouseButton = 1 << 4,
 
 	};
 

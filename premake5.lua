@@ -137,3 +137,60 @@ project "Sandbox"
 
 
 
+
+
+project "Tests"
+	location "Tests"
+	kind "SharedLib"
+
+	language "C++"
+
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+
+	files{
+		"%{prj.name}/**.h",
+		"%{prj.name}/**.cpp"
+	}
+
+	includedirs{
+		"Pulp/vendor/spdlog/include",
+		"Pulp/src",
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.glm}",
+		"$(VCInstallDir)UnitTest/include"
+	}
+	local obj_pattern = "bin-int/" .. outputdir .. "/Pulp/**.obj"
+	local fullpath_objs = os.matchfiles(obj_pattern)
+	local objs = table.translate(fullpath_objs, path.getname)
+	
+	links{
+		"Pulp"
+	}
+	
+	filter "system:windows"
+		cppdialect "C++17"
+		staticruntime "On"
+		systemversion "latest"
+
+		defines{
+			"PLP_PLATFORM_WINDOWS"
+		}
+
+	filter "configurations:Debug"
+		defines "PLP_DEBUG"
+		buildoptions "/MDd"
+		symbols "On"
+		
+	filter "configurations:Release"
+		defines "PLP_RELEASE"
+		buildoptions "/MD"
+		optimize "On"
+		
+	filter "configurations:Dist"
+		defines "PLP_DIST"
+		buildoptions "/MD"
+		optimize "On"
+
