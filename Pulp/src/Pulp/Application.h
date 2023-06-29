@@ -10,7 +10,7 @@ namespace Pulp {
 	class PULP_API Application
 	{
 	public:
-		Application();
+		Application(WindowProps wp = WindowProps());
 		virtual ~Application();
 
 		void Run();
